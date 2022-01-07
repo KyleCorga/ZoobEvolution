@@ -3,3 +3,5 @@ Simulation of "Zoobs", a make believe creature. This project was for me and my p
 
 Simulation Explanation:
 Zoobs go through a life cycle of finding food, possibly fighting with another Zoob creature, and reproducing with a chance of successfull reproduction. All factors and outcomes are determined by the Zoob's personal traits such as vision, size, etc. These traits, combined with the environment variables determine how the simualtion plays out.
+
+Run: Run the simulation just by changing whatever environment/Zoob variables you desire in the code, and run SimDriver.py
