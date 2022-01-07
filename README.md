@@ -1,2 +1,2 @@
 # ZoobEvolution
-Simulation of "Zoobs" and how their traits changed based on predetermined environment and Zoob attribute variables.
+Simulation of "Zoobs", a make believe creature. This project was for me and my partners Evolution v.s. The Bible class where instead of writing a final paper, we chose to create this rudmentary simulation of how evolution over generations occurs, based on the survivability of the creatues and their passing down of genes that made them more viable to survive, in the environment we provided them with. Me and my partner planned to work on it more but never got around to it, hence the over use of comments to help us understand each step of the simulation, and possible future ideas for the project.
