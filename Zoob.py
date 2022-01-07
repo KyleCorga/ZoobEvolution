@@ -1,8 +1,8 @@
 import random #importing Math class
 
 
-mutationRate = 50
-mutationIntensity = 30
+mutationRate = 20
+mutationIntensity = 3
 class Zoob:
 	#Traits of a Zoob
 	#//Food Rules
@@ -40,13 +40,7 @@ class Zoob:
         else:##Is child
             #//Constructor with two parent args
             #Mutation threshold
-            if random.randint(1,100) < mutationRate:
-                if parentA.altruism + parentB.altruism <= 3:
-                    self.altruism = random.choice([1,2])
-                else:
-                    self.altruism = random.choice([2,3])
-            else: 
-                self.altruism = random.choice([parentA.altruism,parentB.altruism])
+            self.altruism = random.choice([parentA.altruism,parentB.altruism])
             self.socialSkills = self.mixTrait(parentA.socialSkills,parentB.socialSkills)
             self.speed = self.mixTrait(parentA.speed,parentB.speed)
             self.size = self.mixTrait(parentA.size,parentB.size)
@@ -74,7 +68,7 @@ class Zoob:
             #print("Died of starvingAGE","-Food:",self.food," -Required:",self.foodRequired," -isStarving:",self.isStarving())
             return False#die
         elif self.isBeaten: #dies from beaten
-            #print("died of getting kicked")
+            #print("died of getting his shit kicked in")
             return False#die
         else: #lives
             #print("Not StarvingAGE","-Food:",self.food," -Required:",self.foodRequired," -isStarving:",self.isStarving())
@@ -200,8 +194,8 @@ class Zoob:
         if random.randint(1, 100) < mutationRate:#will Mutate, mutation rate is a threshold between 1,100 if 1 no mutation, if 100 always mutate
             mixGene = mixGene+random.randint(-1*mutationIntensity, mutationIntensity)#mutated gene
             if mixGene>100:
-                mixGene = 100###No upper bound if toggled
-            if mixGene<1:
+                mixGene = 100
+            elif mixGene<1:
                 mixGene = 1
         return mixGene
     def __lt__(self, other):
@@ -221,4 +215,4 @@ class Zoob:
         return copy
         
     def __copy__(self):
-        return self.copyZoob()
+        return copyZoob

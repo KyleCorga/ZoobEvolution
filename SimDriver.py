@@ -1,12 +1,8 @@
 import random
-import xlwt
-from xlutils.copy import copy
-from xlrd import *
-from datetime import datetime
 from Zoob import Zoob
 
 #Global variables
-findFoodChallenge = 10#how much harder it becomes to find food each iteration of searching(can search a max of 10 rounds)
+findFoodChallenge = 10 #how much harder it becomes to find food each iteration of searching(can search a max of 10 rounds)
 #Arrays to store statistics of each iteration to print to a file
 fileNumAlive = []
 fileAltOne = []
@@ -23,18 +19,12 @@ fileAvgTimeAlive = []
     
 def main():
     #variables
-    iterations = 1000#  how many iterations to run the simulation
+    iterations = 100#  how many iterations to run the simulation
     zoobNumber = 50#    how many zoobs the simulation starts with
-    envFood = 200#   how much food the enviornment starts with
-    zoobList = generateZoobArray(zoobNumber,True)#array of randomized zoobsalso accepts maybe shared ancestor?
+    envFood = 500#   how much food the enviornment starts with
+    endFoodTrend = 1#trend of food every iteration UNUSED RN
+    zoobList = generateZoobArray(zoobNumber,False)#array of randomized zoobsalso accepts maybe shared ancestor?
     firstIteration = True
-    
-    #To write to file
-    wb = xlwt.Workbook()
-    sheetName = str('Z_'+str(zoobNumber)+'_I_'+str(iterations)+'_F_'+str(envFood))
-    if(len(sheetName)>20):
-        sheetName="Simulation Sheet"
-    ws = wb.add_sheet(str(sheetName))
     
     for i in range(iterations+1):
         #####BEGINNING OF SIM ITERATION
@@ -52,7 +42,6 @@ def main():
         for Zoob in babyList:
             zoobList.append(Zoob)
         #####END OF SIM ITERATION
-        
         #DATA: Display stats
         #if list is empty, say that they are all dead and stop simulating
         if len(zoobList) == 0:
@@ -60,44 +49,16 @@ def main():
             i = iterations + 1
             return
         printStatistics(zoobList,i,survivalRate)#prints data after iteration
-    
-    writeStatistics(ws, iterations)
-    ws.write(0, 14, "Iterations")
-    ws.write(1, 14, iterations)
-    
-    ws.write(0, 15, "Initial Population")
-    ws.write(1, 15, zoobNumber)
-    
-    ws.write(0, 16, "Food Available")
-    ws.write(1, 16, envFood)
-    wb.save('SimulationStats.xls')
-
-def writeStatistics(ws, iterations):
-    ws.write(0, 0, "Iteration")
-    for i in range(iterations):
-        ws.write(i+1, 0, i)
-    writeRow(ws,1,"Population",fileNumAlive)
-    writeRow(ws,2,"Altruistic",fileAltOne)
-    writeRow(ws,3,"Indifferent",fileAltTwo)
-    writeRow(ws,4,"Selfish",fileAltThree)
-    writeRow(ws,5,"Median Selfishness",fileMedianAlt)
-    writeRow(ws,6,"Social",fileAvgSocial)
-    writeRow(ws,7,"Speed",fileAvgSpeed)
-    writeRow(ws,8,"Size",fileAvgSize)
-    writeRow(ws,9,"Vision",fileAvgVision)
-    writeRow(ws,10,"Agression",fileAvgAggr)
-    writeRow(ws,11,"Food Required",fileAvgFoodReq)
-    writeRow(ws,12,"Time Alive",fileAvgTimeAlive)
-    
-def writeRow(ws, colNumber, colName, arrayPassed):
-    ws.write(0, colNumber, colName)
-    for i in range(len(arrayPassed)):
-        ws.write(i+1, colNumber, arrayPassed[i])
-        #prints all the zoobs out from zoobList 
+ 
+#prints all the zoobs out from zoobList 
 def printAllZoobs(zoobList):
     for Zoob in zoobList:
         Zoob.printStats()
-    #writes the averages of each iteration into an excel file   
+   
+#writes the averages of each iteration into an excel file   
+def writeToExcel(zoobList):
+    return True
+    
 #prints out relevent statistics of list of zoobs, i = iteration number, also puts statistics into global arrays to be printed
 def printStatistics(zoobList,i,survivalRate):
     #Variables (all are counters to find statistics, except for number alive)
@@ -148,6 +109,7 @@ def printStatistics(zoobList,i,survivalRate):
             medianAltruism = 3
         else:
             medianAltruism = 2
+ 
     #adds everything to the global arrays to be printed to a file after
     fileNumAlive.append(numberAlive)
     fileAltOne.append(altOneCount)
@@ -237,7 +199,8 @@ def timePass(zoobList):
             deathCounter = deathCounter + 1
             newZoobs.pop(i)
         else: #zoob dont die   
-            newZoobs[i].age()
+           newZoobs[i].age()
+           
     stillAlive = initialPopulation-deathCounter
     survivalRate = (stillAlive/initialPopulation) * 100
     return newZoobs,survivalRate
